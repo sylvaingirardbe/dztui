@@ -52,6 +52,10 @@ class TestSteamDetection(unittest.TestCase):
                 ):
                     self.assertEqual(proc.is_steam_running(STEAM_CMD), running)
 
+    def test_native_steam_while_flatpak_is_running(self):
+        with patch.object(proc, "is_flatpak_steam_running", return_value=True):
+            self.assertEqual(proc.is_steam_running(STEAM_CMD), False)
+
     def test_invalid_client(self):
         with self.assertRaises(TypeError):
             proc.is_steam_running("invalid-client")
