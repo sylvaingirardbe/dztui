@@ -20,7 +20,7 @@ def is_steam_running(cmd: str) -> bool:
         if has_cmd(STEAM_CMD) is False:
             return False
         return is_running(STEAM_CMD)
-    elif cmd == FLATPAK_RUN_CMD or FLATPAK_SANDBOX:
+    elif cmd in (FLATPAK_RUN_CMD, FLATPAK_SANDBOX):
         return is_flatpak_steam_running()
     else:
         raise TypeError("Not a valid Steam client selection")
@@ -31,7 +31,9 @@ def is_steam_running(cmd: str) -> bool:
 def is_flatpak_steam_running() -> bool:
     if has_cmd(FLATPAK_CMD) is False:
         return False
-    proc = subprocess.check_output([FLATPAK_CMD, "ps"], text=True)
+    proc = subprocess.check_output(
+        [FLATPAK_CMD, "ps", "--columns=application"], text=True
+    )
     lines = proc.splitlines()
     if FLATPAK_APPID in lines:
         return True
