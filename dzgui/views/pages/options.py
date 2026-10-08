@@ -372,7 +372,6 @@ class Options(ScrollableMixin, Gtk.ScrolledWindow):  # type: ignore
         self.connect("key-press-event", self._on_keypress)
 
     def get_client_name(self, cmd: str) -> str:
-        model = self.client_combo.get_model()
         return self.client_combo.get_client_human_readable(cmd)
 
     def block_text_entry(self) -> None:
